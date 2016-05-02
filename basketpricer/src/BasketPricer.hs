@@ -4,9 +4,7 @@ module BasketPricer ( Item(Apple, Banana),
                       buyTwoGetOneFree,
                       buyOneGetOneHalfPrice
                       ) where
-
 import Data.List
-
 
 data Item = Banana | Apple deriving (Show, Eq)
 type Basket = [Item]
@@ -23,15 +21,17 @@ simplePrice basket promotions = basketPrice - totalDiscount
                       basketPrice = (foldl (+) 0.0 ).map (price) $ basket
 
 buyOneGetOneFree :: Item -> Basket -> Discount
-buyOneGetOneFree item basket = if( length eligibleItems >= 2 ) then (price item , [item, item]) else (0.0, [])
-                      where eligibleItems = filter ( == item) basket
+buyOneGetOneFree item basket = multiBuyOffer item 2 price basket
 
 buyOneGetOneHalfPrice :: Item -> Basket -> Discount
-buyOneGetOneHalfPrice item basket = if( length eligibleItems >= 2 ) then ((price item) * 0.5, [item, item]) else (0.0, [])
-                      where eligibleItems = filter ( == item) basket
+buyOneGetOneHalfPrice item basket = multiBuyOffer item 2 halfPice basket
+                      where halfPice = (* 0.5).price
 
 buyTwoGetOneFree :: Item -> Basket -> Discount
-buyTwoGetOneFree item basket = if( length eligibleItems >= 3 ) then ((price item) , [item, item, item]) else (0.0, [])
+buyTwoGetOneFree item basket = multiBuyOffer item 3 price basket
+
+multiBuyOffer :: Item -> Int ->  (Item -> Double) -> Basket -> Discount
+multiBuyOffer item n p basket = if( length eligibleItems >= n ) then ((p item) , replicate n item) else (0.0, [])
                       where eligibleItems = filter ( == item) basket
 
 applyPromotion :: Promotion -> Basket -> (Discount, Basket)
