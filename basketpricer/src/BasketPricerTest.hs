@@ -3,7 +3,7 @@ import Test.QuickCheck
 import BasketPricer ( Item(Apple, Banana), simplePrice )
 
 main = hspec $ describe "simplePriceBasket" $ do
-  it "works for empty baskets " $ do
+  it "works for empty basket" $ do
     simplePrice [] `shouldBe` 0.0
 
   it "works for baskets with some items" $ do
