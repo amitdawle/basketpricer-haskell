@@ -24,8 +24,8 @@ buyOneGetOneFree :: Item -> Basket -> Discount
 buyOneGetOneFree item basket = multiBuyOffer item 2 price basket
 
 buyOneGetOneHalfPrice :: Item -> Basket -> Discount
-buyOneGetOneHalfPrice item basket = multiBuyOffer item 2 halfPice basket
-                      where halfPice = (* 0.5).price
+buyOneGetOneHalfPrice item basket = multiBuyOffer item 2 halfPrice basket
+                      where halfPrice = (* 0.5).price
 
 buyTwoGetOneFree :: Item -> Basket -> Discount
 buyTwoGetOneFree item basket = multiBuyOffer item 3 price basket
